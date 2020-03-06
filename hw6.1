@@ -1,124 +1,223 @@
-//Rafael Martinez
-//COP 2000
-//
-//lots of editing still needs to be done
+#include <iostream>
+#include <iomanip>
+#include <cstdlib>
+#include <ctime>
 
-#include <iostream>																						 
-#include <iomanip>																						 
-#include <cstdio>																					
-#include <string>
-using namespace std;  
+using namespace std;
 
-void checkForChampion(int a[]);
-
-bool isInputValid(int b);
-bool BoardsWon(int randomNum);
-
-int AskforGuess(int GuessInput);
-int beginGame(int playedBoard[]);
-
-void displayBoard(int board[][3]);
-bool testWinner(int ans, int boardNum, int ansBoard[]);
+int beginGame(int[]);
+void displayBoard(int[][3]);
+bool testWinner(int &, int, int[]);
 void instructions();
-                                                                                  
 
-int main()																								 
+int main()
 {
-	const int MAX_NUMBER_OF_GUESSES = 3;
-	int guessesMade = 0;
-	int randomNum,
-		GuessInput;
-	
+    int board_1[4][3] = { 38, 11, 83,
+                         15, 6, 33,
+                         10, 2, 20,
+                         86, NULL, 95};
 
-	do{
-		instructions();
-		AskforGuess(GuessInput);
-		guessesMade++;
-	} while (guessesMade < MAX_NUMBER_OF_GUESSES);
-	
-	bool BoardsWon[3] = { false, false, false };
-										// i have a random number from 0-2 or 1-3
-	//displayBoard[randomNum] = 1;      // this would access the randomly selected board
-	
-	//if (isInputValid(GuessInput)) beginGame();
-	//else exit(0);
-									//Board "0" in C++
-	int board1[4][3] = {38, 11, 83,
-						15, 6, 33,
-						10, 2, 20,
-						86,NULL, 95};
-	int board2[4][3] = {28, 10, 55,
-						89, 17, 98,
-						22, 4, 31,
-						69,NULL, 78};
-	int board3[4][3] = {90, 9, 45,
-						66, 12, 48,
-						34, 7, 70,
-						44,NULL, 26};
+	int board_2[4][3] = { 28, 10, 55,
+                         89, 17, 98,
+                         22, 4, 31,
+                         69, NULL, 78};
+
+	int board_3[4][3] = { 90, 9, 45,
+                         66, 12, 48,
+                         34, 7, 70,
+                         44, NULL, 26};
+
 	int ansArray[3] = { 14,15,8 };
 	int usedBoards[3] = {NULL};
-	
-	//checkForChampion(BoardsWon);
-	return 0;																			 				//ends program when done and returns to int main with zero saying everything has worked well.
+	int userInput, number_wins = 0, guesses = 0, boardNumber, ans, randomNum;
+    bool correct; int main_board[4][3];
+    instructions();
+    beginGame(usedBoards);
+    do
+    {
+        displayBoard(main_board);
+        cout << endl << "Enter your guess or zero to exit";
+        cin >> userInput;
+        if (userInput == 0){
+            cout << endl << "Exiting..";
+            return 0;
+        }
+        else{
+        while (userInput < 0)
+        {
+            cout << endl << "Please enter a valid value";
+            cin >> userInput;
+        }
+        }
+
+            testWinner(userInput, boardNumber, ansArray);
+            if (correct == true)
+            {
+				switch (boardNumber)
+				{
+				case 0:
+					number_wins++;
+					usedBoards[0] =  1 ;
+			   }
+
+            }
+
+            else if (correct == true && ((usedBoards[0] != NULL) || (usedBoards[1] != NULL) || (usedBoards[2] != NULL)))
+
+            {
+                cout << endl << "Do you want to play again or exit (0)";
+                cin >> userInput;
+                if (userInput == 0){
+                    cout << endl << "Exiting..";
+                    return 0;
+                }
+
+                else{
+
+                while (userInput < 0)
+                {
+                    cout << endl << "Please enter a valid value";
+                    cin >> userInput;
+                }
+
+                }
+
+                if (userInput != 0)
+                {
+                    beginGame(usedBoards);
+                }
+
+            }
+            else
+            {
+                guesses++;
+                if (guesses > 3)
+                {
+                    cout << endl << "Do you want to play again?. 1 to play again, 0 to exit";
+                    cin >> userInput;
+                    if (userInput == 0){
+                    cout << endl << "Exiting..";
+                    return 0;
+                    }
+
+                    else{
+
+                    while (userInput < 0)
+                    {
+                    cout << endl << "Please enter a valid value";
+                    cin >> userInput;
+                    }
+
+                    }
+
+                    if (userInput != 0)
+                    {
+                        beginGame(usedBoards);
+                    }
+                }
+            }
+    }while (usedBoards[0] != NULL || usedBoards[1] != NULL || usedBoards[2] != NULL);
+        cout << endl << "You are the number guessing Champion !!";
+		return 0;
 }
 
-bool isInputValid(int b)
+
+
+void instructions()
 {
-	if (b >= 1) return true;
-	else return false;
+	cout << "**********************************" << endl;
+	cout << endl << "MISSING NUMBERS GAME" << endl;
+	cout << "A Fun Brain Game" << endl << endl << endl;
+	cout << "Please enter a whole number to guess the missing number...";
+	cout << endl << "Program Developed by: RffyRaf" << endl;
+	cout << "**********************************" << endl;
 }
-void checkForChampion(bool a[])
+
+int beginGame(int playedBoards[])
 {
-	bool BoardsWon;
-	//if (BoardsWon[0] && BoardsWon[1] && BoardsWon[2] == true)
+	int randomNum;
+	int boardNumber;
+	srand(time(0));
+	randomNum = (rand() % (3));
+
+	switch (randomNum)
 	{
-		cout << "YOU ARE THE CHAMPION!!";
-	}
-}
-int beginGame(int playedBoard[])
-{
-	int randomNum = (rand() % (2 - 0 + 1)) + 0;
+	case 0:
+		do
+        {
+          randomNum = (rand() % (3));
+		} while (playedBoards[0] != NULL);
+		return randomNum;
+		randomNum = boardNumber;
+		break;
 
+	case 1:
+		do {
+			randomNum = (rand() % (3));
+		} while (playedBoards[1] != NULL);
+		return randomNum;
+		randomNum = boardNumber;
+		break;
+	case 2:
+		do {
+			randomNum = (rand() % (3));
+		} while (playedBoards[2] != NULL);
+		return randomNum;
+		randomNum = boardNumber;
 
-	return randomNum;
-}
-
-int AskforGuess(int GuessInput)
-{
-	cout << "Enter Guess or 0 to Exit >> " << endl;
-	cin >> GuessInput;
-	if (GuessInput == 0)
-	{
-		cout << "Thank you for using the Missing Numbers Game!";
-		exit(0);
-	}
-
-	return GuessInput;
+    }
 }
 
 void displayBoard(int board[][3])
 {
-	cout << displayBoard << endl;
+    int randomNum;
+    int board_1[4][3], board_2[4][3], board_3[4][3];
+    switch (randomNum)
+    {
+    case 0:
+        for (int x = 0; x < 4; x++)
+    {
+        for (int y = 0; y < 3; y++)
+        {
+            cout << setw(4) << board_1[x][y] << " ";
+        }
+        cout << endl;
+    }
+    case 1:
+        for (int x = 0; x < 4; x++)
+    {
+        for (int y = 0; y < 3; y++)
+        {
+            cout << setw(4) << board_2[x][y] << " ";
+        }
+        cout << endl;
+    }
+    case 2:
+        for (int x = 0; x < 4; x++)
+    {
+        for (int y = 0; y < 3; y++)
+        {
+            cout << setw(4) << board_3[x][y] << " ";
+        }
+        cout << endl;
+    }
+    }
+
 }
 
-bool testWinner(int ans, int boardNum, int ansBoard[])
-{
-	//check to see if the ans (which is the answer that the user entered) is equal to
-	//the answer in the ansBoard
-	
-	
-	
-	return false;
-}
 
-//bool BoardsWon(int randomNum) =
-
-void instructions()
+bool testWinner(int &ans, int boardNum, int ansBoard[])
 {
-	cout << "*****************************************************************" <<
-		"                      MISSING NUMBERS GAME" << endl <<
-		"                       A fun brain game" << endl << endl <<
-		"   Please Enter a whole number to guess the missing number" << endl <<
-		"             Program Developed by : Zachary Stockman" << endl <<
-		"*****************************************************************" << endl;
+    int userInput;
+    if (userInput == ansBoard[boardNum])
+    {
+        cout << endl << "Nice Job!!";
+        return true;
+    }
+    else
+    {
+        cout << endl << "Sorry, that is incorrect";
+        return false;
+    }
+
 }
