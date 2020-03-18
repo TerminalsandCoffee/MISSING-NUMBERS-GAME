@@ -29,9 +29,9 @@ int main(){
                          44, NULL, 26};
 
 
-    int ansBoard[3] = {14, 15, 8};      //Array that stores the answer for each board
-    int playedBoard[3] = {NULL};        //Array that will keep track of which boards have been played
-    int ans;                            //Variable that will store the users answer
+    int ansBoard[3] = {14, 15, 8};      //stores the answer for each board
+    int playedBoard[3] = {NULL};        //keeps track of which boards have been played
+    int ans;                            //will store the users answer
     int wins = 0;                       //Will store the number of times the user wins
     int guessCount = 0;                 //How many guesses the user has made
     int boardNum;                       //Stores the current board in use
@@ -84,8 +84,8 @@ int main(){
 
             if(winner){
                 
-                // this will keep track of how many wins the user has as well
-                // as the boards that have been played
+                // this will keep track of how many wins the user has
+               
                 playedBoard[boardNum] = 1;
                 wins +=1;
 
@@ -107,7 +107,7 @@ int main(){
             }
             else{
 
-                // this is adds for each guess made
+                // this adds for each guess made
                 guessCount += 1;
             }
 
@@ -137,8 +137,8 @@ int main(){
     
 
 
-// this function will choose a random board for the 
-// beginning of the game or to restart the game 
+// will choose a random board for the 
+// beg. or restart of the game 
 int beginGame(int playedBoard[]){
 
     int randomNum;
@@ -150,7 +150,7 @@ int beginGame(int playedBoard[]){
             // Generate random word between 0-2 
            randomNum = (rand() % (maxValue - minValue + 1)) + minValue;
 
-            // check to see if this board has not been played i.e == NULL then
+            // check to see if this board has not been played
            if(playedBoard[randomNum] == NULL)
               return randomNum;
    
